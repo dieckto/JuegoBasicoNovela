@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciclo Eterno - Inicio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Trajan Pro', 'Cinzel', serif;
+            overflow: hidden;
+            background: #000;
+            color: #c9b896;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Fondo sutil con textura */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(20, 15, 10, 0.3) 0%, rgba(0,0,0,1) 70%);
+            animation: breathe 6s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        /* Partículas sutiles */
+        .particle {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            background: rgba(201, 184, 150, 0.15);
+            border-radius: 50%;
+            animation: floatParticle 20s infinite ease-in-out;
+        }
+
+        @keyframes floatParticle {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% {
+                transform: translateY(-100vh) translateX(30px);
+                opacity: 0;
+            }
+        }
+
+        /* Contenido principal */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 700px;
+            padding: 40px;
+            animation: fadeIn 3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .title-container {
+            margin-bottom: 80px;
+            animation: titleAppear 2s ease-out;
+        }
+
+        @keyframes titleAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .title {
+            font-size: 52px;
+            font-weight: 400;
+            color: #c9b896;
+            letter-spacing: 12px;
+            margin-bottom: 20px;
+            text-transform: none;
+            line-height: 1.4;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: rgba(201, 184, 150, 0.7);
+            letter-spacing: 3px;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            animation: menuAppear 2s ease-out 0.8s both;
+        }
+
+        @keyframes menuAppear {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: transparent;
+            color: rgba(201, 184, 150, 0.6);
+            font-size: 22px;
+            letter-spacing: 2px;
+            font-family: inherit;
+            text-align: left;
+            position: relative;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            width: 20px;
+            height: 1px;
+            background: rgba(201, 184, 150, 0);
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            color: rgba(201, 184, 150, 1);
+            transform: translateX(15px);
+        }
+
+        .menu-item:hover::before {
+            background: rgba(201, 184, 150, 0.8);
+            width: 30px;
+        }
+
+        .menu-icon {
+            width: 32px;
+            height: 32px;
+            margin-right: 20px;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .menu-item:hover .menu-icon {
+            opacity: 1;
+        }
+
+        /* Iconos SVG simples */
+        .icon-circle {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        .icon-fill {
+            fill: currentColor;
+        }
+
+        /* Control de audio */
+        .audio-toggle {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 1px solid rgba(201, 184, 150, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 100;
+            animation: fadeIn 2s ease-out 1s both;
+        }
+
+        .audio-toggle:hover {
+            border-color: rgba(201, 184, 150, 0.8);
+            background: rgba(201, 184, 150, 0.05);
+        }
+
+        .audio-icon {
+            width: 24px;
+            height: 24px;
+            color: rgba(201, 184, 150, 0.6);
+            transition: color 0.3s ease;
+        }
+
+        .audio-toggle:hover .audio-icon {
+            color: rgba(201, 184, 150, 1);
+        }
+
+        .icon-stroke {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .sound-wave {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .audio-muted .sound-wave {
+            opacity: 0.3;
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Overlay de inicio */
+        .start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .start-overlay.hidden {
+            animation: fadeOut 1s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+
+        .start-text {
+            color: rgba(201, 184, 150, 0.8);
+            font-size: 18px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Marca de agua sutil */
+        .watermark {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(201, 184, 150, 0.25);
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: fadeIn 3s ease-out 2s both;
+        }
+
+        /* Grieta decorativa sutil */
+        .decoration-line {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 40%;
+            background: linear-gradient(to bottom, 
+                transparent, 
+                rgba(201, 184, 150, 0.15) 20%, 
+                rgba(201, 184, 150, 0.15) 80%, 
+                transparent);
+            animation: linePulse 4s ease-in-out infinite;
+        }
+
+        @keyframes linePulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Overlay de inicio -->
+    <div class="start-overlay" id="startOverlay" onclick="startExperience()">
+        <div class="start-text">Haz clic para despertar</div>
+    </div>
+
+    <div class="container">
+        <!-- Fondo -->
+        <div class="background" id="background"></div>
+
+        <!-- Línea decorativa -->
+        <div class="decoration-line"></div>
+
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <div class="title-container">
+                <div class="title">Has renacido otra vez.</div>
+                <div class="subtitle">Pero aún no recuerdas quién eres.</div>
+            </div>
+
+            <div class="menu-buttons">
+                <button class="menu-item" onclick="continueGame()">
+                    <svg class="menu-icon" viewBox="0 0 24 24">
+                        <circle class="icon-circle" cx="12" cy="12" r="10"/>
+                        <path class="icon-fill" d="M12 2 L12 12 L17 7 Z" opacity="0.6"/>
+                    </svg>
+                    Continuar el ciclo
+                </button>
+
+                <button class="menu-item" onclick="newGame()">
+                    <svg class="menu-icon" viewBox="0 0 24 24">
+                        <path class="icon-circle" d="M12 2 Q17 7 17 12 Q17 17 12 22 Q7 17 7 12 Q7 7 12 2"/>
+                        <circle class="icon-fill" cx="12" cy="12" r="2" opacity="0.6"/>
+                    </svg>
+                    Comenzar vida nueva
+                </button>
+
+                <button class="menu-item" onclick="showMemories()">
+                    <svg class="menu-icon" viewBox="0 0 24 24">
+                        <rect class="icon-circle" x="4" y="4" width="7" height="7" rx="1"/>
+                        <rect class="icon-circle" x="13" y="4" width="7" height="7" rx="1"/>
+                        <rect class="icon-circle" x="4" y="13" width="7" height="7" rx="1"/>
+                        <rect class="icon-circle" x="13" y="13" width="7" height="7" rx="1"/>
+                    </svg>
+                    Fragmentos recordados
+                </button>
+
+                <button class="menu-item" onclick="showLore()">
+                    <svg class="menu-icon" viewBox="0 0 24 24">
+                        <path class="icon-circle" d="M3 12 Q3 7 7 4 Q12 2 17 4 Q21 7 21 12 Q21 17 17 20 Q12 22 7 20 Q3 17 3 12"/>
+                        <path class="icon-fill" d="M8 10 L10 12 L8 14 M16 10 L14 12 L16 14" opacity="0.6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    </svg>
+                    Ecos del mundo
+                </button>
+
+                <button class="menu-item" onclick="showProfile()">
+                    <svg class="menu-icon" viewBox="0 0 24 24">
+                        <circle class="icon-circle" cx="12" cy="9" r="4"/>
+                        <path class="icon-circle" d="M5 20 Q5 16 8 14 Q10 13 12 13 Q14 13 16 14 Q19 16 19 20"/>
+                    </svg>
+                    Quién fui
+                </button>
+            </div>
+        </div>
+
+        <!-- Control de audio -->
+        <button class="audio-toggle" id="audioToggle" onclick="toggleAudio()">
+            <svg class="audio-icon" viewBox="0 0 24 24" id="audioIcon">
+                <path class="icon-stroke" d="M11 5L6 9H2v6h4l5 4V5z"/>
+                <path class="icon-stroke sound-wave" d="M15.54 8.46a5 5 0 010 7.07M18.36 5.64a9 9 0 010 12.72" id="soundWaves"/>
+            </svg>
+        </button>
+
+        <!-- Marca de agua -->
+        <div class="watermark">Ciclo Eterno</div>
+    </div>
+
+    <!-- Audio de fondo local -->
+    <audio id="backgroundMusic" loop>
+        <source src="Dark Violin & Cello Music for Deep Focus.mp4" type="audio/mp4">
+        <source src="Dark Violin & Cello Music for Deep Focus.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Crear partículas sutiles
+        const background = document.getElementById('background');
+        
+        for (let i = 0; i < 25; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 15) + 's';
+            background.appendChild(particle);
+        }
+
+        // Variables de audio
+        const music = document.getElementById('backgroundMusic');
+        const audioToggle = document.getElementById('audioToggle');
+        const startOverlay = document.getElementById('startOverlay');
+        
+        let isMuted = false;
+        let musicStarted = false;
+        music.volume = 0.3; // Volumen al 30% para ambiente sutil
+
+        // Función para iniciar la experiencia
+        function startExperience() {
+            startOverlay.classList.add('hidden');
+            
+            // Si la música no se inició automáticamente, intentar iniciarla ahora
+            if (!musicStarted) {
+                music.play().catch(error => {
+                    console.log('Error al reproducir:', error);
+                });
+                musicStarted = true;
+            }
+        }
+
+        // Intentar iniciar la música inmediatamente cuando carga la página
+        window.addEventListener('load', () => {
+            music.play().then(() => {
+                musicStarted = true;
+                console.log('Música iniciada automáticamente');
+            }).catch(error => {
+                console.log('Reproducción automática bloqueada. Se iniciará con el clic del usuario.');
+                // La música se iniciará cuando el usuario haga clic en "Haz clic para despertar"
+            });
+        });
+
+        // Toggle de audio
+        function toggleAudio() {
+            if (isMuted) {
+                music.play();
+                music.muted = false;
+                audioToggle.classList.remove('audio-muted');
+                isMuted = false;
+            } else {
+                music.pause();
+                audioToggle.classList.add('audio-muted');
+                isMuted = true;
+            }
+        }
+
+        // Funciones del menú
+        function continueGame() {
+            console.log('Continuando ciclo...');
+        }
+
+        function newGame() {
+           window.open('escena1.html');
+        }
+
+        function showMemories() {
+            console.log('Mostrando fragmentos...');
+        }
+
+        function showLore() {
+            console.log('Mostrando ecos del mundo...');
+        }
+
+        function showProfile() {
+            console.log('Mostrando vidas pasadas...');
+        }
+    </script>
+</body>
+</html>
